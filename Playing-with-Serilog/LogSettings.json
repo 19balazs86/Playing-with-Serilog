@@ -1,0 +1,21 @@
+﻿{
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Debug",
+      "Override": {
+        "Microsoft": "Warning",
+        "System": "Warning"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "args": {
+          //"outputTemplate": "[{Timestamp:HH:mm:ss} {Level}] {Message}{NewLine}{Exception}",
+          "formatter": "Serilog.Formatting.Json.JsonFormatter, Serilog"
+        }
+      }
+    ],
+    "Enrich": [ "FromLogContext" ]
+  }
+}
