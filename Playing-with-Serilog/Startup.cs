@@ -14,6 +14,8 @@ namespace Playing_with_Serilog
   {
     private LoggingLevelSwitch _loggingLevelSwitch;
 
+    public IConfiguration Configuration { get; }
+    
     public Startup(IConfiguration configuration)
     {
       Configuration = configuration;
@@ -21,8 +23,6 @@ namespace Playing_with_Serilog
       // --> Init: Logger
       initLogger();
     }
-
-    public IConfiguration Configuration { get; }
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -51,8 +51,8 @@ namespace Playing_with_Serilog
         .Build();
 
       // --> Init: Logging level switch
-      LogEventLevel defaultLogEventLevel = (LogEventLevel)Enum.Parse(typeof(LogEventLevel), logConfig["Serilog:MinimumLevel:Default"]);
-      _loggingLevelSwitch = new LoggingLevelSwitch(defaultLogEventLevel);
+      LogEventLevel defaultLogLevel = Enum.Parse<LogEventLevel>(logConfig["Serilog:MinimumLevel:Default"]);
+      _loggingLevelSwitch           = new LoggingLevelSwitch(defaultLogLevel);
 
       // --> Create: Logger from config file
       Log.Logger = new LoggerConfiguration()

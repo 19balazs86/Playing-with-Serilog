@@ -15,6 +15,15 @@
           "formatter": "Serilog.Formatting.Json.JsonFormatter, Serilog"
         }
       }
+      //{
+      //  "Name": "Logentries",
+      //  "Args": {
+      //    "token": "TOKEN",
+      //    //"outputTemplate": "[{Timestamp:HH:mm:ss} {Level}] {Message}{NewLine}{Exception}",
+      //    "textFormatter": "Serilog.Formatting.Json.JsonFormatter, Serilog",
+      //    "restrictedToMinimumLevel": "Verbose"
+      //  }
+      //}
     ],
     "Enrich": [ "FromLogContext" ]
   }
