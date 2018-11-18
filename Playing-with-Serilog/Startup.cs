@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -6,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
-using System;
 
 namespace Playing_with_Serilog
 {
@@ -45,18 +45,13 @@ namespace Playing_with_Serilog
 
     private void initLogger()
     {
-      // --> Read: Log configuration
-      IConfiguration logConfig = new ConfigurationBuilder()
-        .AddJsonFile("LogSettings.json")
-        .Build();
-
       // --> Init: Logging level switch
-      LogEventLevel defaultLogLevel = Enum.Parse<LogEventLevel>(logConfig["Serilog:MinimumLevel:Default"]);
+      LogEventLevel defaultLogLevel = Enum.Parse<LogEventLevel>(Configuration["Serilog:MinimumLevel:Default"]);
       _loggingLevelSwitch           = new LoggingLevelSwitch(defaultLogLevel);
 
       // --> Create: Logger from config file
       Log.Logger = new LoggerConfiguration()
-        .ReadFrom.Configuration(logConfig)
+        .ReadFrom.Configuration(Configuration)
         .MinimumLevel.ControlledBy(_loggingLevelSwitch)
         .CreateLogger();
 
