@@ -28,7 +28,7 @@ namespace Playing_with_Serilog
     {
       services.AddMvc(options => {
         options.Filters.Add(new ExecutionTimeLogActionFilter()); // Add filter
-      }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+      }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
       services.AddSingleton(_loggingLevelSwitch);
     }
@@ -47,7 +47,8 @@ namespace Playing_with_Serilog
     {
       // --> Init: Logging level switch
       LogEventLevel defaultLogLevel = Enum.Parse<LogEventLevel>(Configuration["Serilog:MinimumLevel:Default"]);
-      _loggingLevelSwitch           = new LoggingLevelSwitch(defaultLogLevel);
+
+      _loggingLevelSwitch = new LoggingLevelSwitch(defaultLogLevel);
 
       // --> Create: Logger from config file
       Log.Logger = new LoggerConfiguration()
