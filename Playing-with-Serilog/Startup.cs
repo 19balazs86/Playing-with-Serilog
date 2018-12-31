@@ -26,9 +26,20 @@ namespace Playing_with_Serilog
 
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddMvc(options => {
+      services.AddMvcCore(options =>
+      {
         options.Filters.Add(new ExecutionTimeLogActionFilter()); // Add filter
-      }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+      })
+      .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+      //.AddApiExplorer()
+      //.AddAuthorization()
+      //.AddDataAnnotations()
+      .AddJsonFormatters();
+      //.AddCors();
+
+      //services.AddMvc(options => {
+      //  options.Filters.Add(new ExecutionTimeLogActionFilter()); // Add filter
+      //}).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
       services.AddSingleton(_loggingLevelSwitch);
     }
