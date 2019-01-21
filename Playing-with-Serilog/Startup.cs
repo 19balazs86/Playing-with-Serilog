@@ -12,8 +12,6 @@ namespace Playing_with_Serilog
 {
   public class Startup
   {
-    public static bool UsingConsul => false;
-
     private LoggingLevelSwitch _loggingLevelSwitch;
 
     public IConfiguration Configuration { get; }

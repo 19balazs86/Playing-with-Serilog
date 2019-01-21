@@ -9,6 +9,8 @@ namespace Playing_with_Serilog
 {
   public class Program
   {
+    public static bool UsingConsul => false;
+
     public static void Main(string[] args)
     {
       using (CancellationTokenSource cancellationTokenSource = new CancellationTokenSource())
@@ -30,10 +32,12 @@ namespace Playing_with_Serilog
         .UseKestrel()
         .ConfigureAppConfiguration((hostContext, configBuilder) =>
         {
-          if (Startup.UsingConsul)
+          string environmentName = hostContext.HostingEnvironment.EnvironmentName;
+
+          if (UsingConsul)
           {
             configBuilder
-              .AddConsul($"App1/appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", cancellationToken,
+              .AddConsul($"App1/appsettings.{environmentName}.json", cancellationToken,
                 options =>
                 {
                   // You won't get any exceptions, if it is optional and ignore exception.
@@ -47,7 +51,7 @@ namespace Playing_with_Serilog
           else
           {
             configBuilder.AddJsonFile("appsettings.json", true);
-            configBuilder.AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", true);
+            configBuilder.AddJsonFile($"appsettings.{environmentName}.json", true);
           }
         })
         .UseStartup<Startup>()
