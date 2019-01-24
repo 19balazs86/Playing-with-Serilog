@@ -3,6 +3,7 @@ using System.Threading;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
+using Serilog.Events;
 using Winton.Extensions.Configuration.Consul;
 
 namespace Playing_with_Serilog
@@ -55,7 +56,18 @@ namespace Playing_with_Serilog
           }
         })
         .UseStartup<Startup>()
+        //.UseSerilog(configureLogger);
         .UseSerilog();
+    }
+
+    private static void configureLogger(WebHostBuilderContext context, LoggerConfiguration configuration)
+    {
+      configuration
+        .MinimumLevel.Debug()
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+        .MinimumLevel.Override("System", LogEventLevel.Error)
+        .Enrich.FromLogContext()
+        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {Message}{NewLine}{Exception}");
     }
   }
 }

@@ -18,6 +18,9 @@ namespace Playing_with_Serilog.Controllers
     public AdminController(LoggingLevelSwitch loggingLevelSwitch)
     {
       _loggingLevelSwitch = loggingLevelSwitch;
+
+      // {SourceContext} property in the outputTemplate, can be populated with the class name.
+      //Log.ForContext<AdminController>().Debug("Constructor: AdminController");
     }
 
     [HttpGet("min-loglevel")]
