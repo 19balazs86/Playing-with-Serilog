@@ -61,6 +61,9 @@ namespace Playing_with_Serilog
     }
 
     private static void configureLogger(WebHostBuilderContext context, LoggerConfiguration configuration)
+      => configuration.ReadFrom.Configuration(context.Configuration);
+
+    private static void configureLogger2(WebHostBuilderContext context, LoggerConfiguration configuration)
     {
       configuration
         .MinimumLevel.Debug()
