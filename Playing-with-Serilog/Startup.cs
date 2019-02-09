@@ -20,26 +20,16 @@ namespace Playing_with_Serilog
     {
       Configuration = configuration;
 
-      // --> Init: Logger
       initLogger();
     }
 
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddMvcCore(options =>
+      services.AddMvc(options =>
       {
         options.Filters.Add(new ExecutionTimeLogActionFilter()); // Add filter
       })
-      .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-      //.AddApiExplorer()
-      //.AddAuthorization()
-      //.AddDataAnnotations()
-      .AddJsonFormatters();
-      //.AddCors();
-
-      //services.AddMvc(options => {
-      //  options.Filters.Add(new ExecutionTimeLogActionFilter()); // Add filter
-      //}).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+      .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
       services.AddSingleton(_loggingLevelSwitch);
     }
@@ -67,12 +57,13 @@ namespace Playing_with_Serilog
         .MinimumLevel.ControlledBy(_loggingLevelSwitch)
         .CreateLogger();
 
-      //// --> Create: Logger 
+      // --> Create: Logger 
       //Log.Logger = new LoggerConfiguration()
       //  .MinimumLevel.ControlledBy(_loggingLevelSwitch)
       //  .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
       //  .Enrich.FromLogContext()
       //  .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {Message}{NewLine}{Exception}")
+      //  .WriteTo.File(path: "log-.txt", rollingInterval: RollingInterval.Day, retainedFileCountLimit: 7, formatter: new Serilog.Formatting.Json.JsonFormatter())
       //  .CreateLogger();
     }
   }
