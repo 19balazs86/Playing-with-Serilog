@@ -55,6 +55,7 @@ namespace Playing_with_Serilog
       Log.Logger = new LoggerConfiguration()
         .ReadFrom.Configuration(Configuration)
         .MinimumLevel.ControlledBy(_loggingLevelSwitch)
+        .Enrich.WithProperty("EnrichProperty", "value")
         .CreateLogger();
 
       // --> Create: Logger 
@@ -62,6 +63,7 @@ namespace Playing_with_Serilog
       //  .MinimumLevel.ControlledBy(_loggingLevelSwitch)
       //  .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
       //  .Enrich.FromLogContext()
+      //  .Enrich.WithProperty("EnrichProperty", "value")
       //  .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {Message}{NewLine}{Exception}")
       //  .WriteTo.File(path: "log-.txt", rollingInterval: RollingInterval.Day, retainedFileCountLimit: 7, formatter: new Serilog.Formatting.Json.JsonFormatter())
       //  .CreateLogger();
