@@ -61,7 +61,9 @@ namespace Playing_with_Serilog
       // --> Create: Logger 
       //Log.Logger = new LoggerConfiguration()
       //  .MinimumLevel.ControlledBy(_loggingLevelSwitch)
-      //  .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+      //  .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+      //  .MinimumLevel.Override("System", LogEventLevel.Warning)
+      //  .MinimumLevel.Override("Microsoft.AspNetCore.Hosting.Internal.WebHost", LogEventLevel.Information)
       //  .Enrich.FromLogContext()
       //  .Enrich.WithProperty("EnrichProperty", "value")
       //  .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {Message}{NewLine}{Exception}")
