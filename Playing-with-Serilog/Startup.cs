@@ -34,12 +34,13 @@ namespace Playing_with_Serilog
       services.AddSingleton(_loggingLevelSwitch);
     }
 
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime appLifetime)
     {
       if (env.IsDevelopment())
-      {
         app.UseDeveloperExceptionPage();
-      }
+
+      // Make sure to flush the log.
+      appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
       app.UseMvc();
     }
