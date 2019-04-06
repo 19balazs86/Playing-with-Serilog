@@ -12,4 +12,4 @@ Github repository for [Serilog.AspNetCore](https://github.com/serilog/serilog-as
 
 **Get Consul:**
 - Docker
-- [Download](https://www.consul.io/downloads.html "Download"). Run: consul agent -dev -client=0.0.0.0
+- [Download](https://www.consul.io/downloads.html "Download"). Run: consul agent -dev -client=0.0.0.0 | http://localhost:8500
