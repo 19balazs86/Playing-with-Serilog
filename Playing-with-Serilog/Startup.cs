@@ -69,6 +69,11 @@ namespace Playing_with_Serilog
       //  .Enrich.WithProperty("EnrichProperty", "value")
       //  .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {Message}{NewLine}{Exception}")
       //  .WriteTo.File(path: "log-.txt", rollingInterval: RollingInterval.Day, retainedFileCountLimit: 7, formatter: new Serilog.Formatting.Json.JsonFormatter())
+      //  //.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
+      //  //{
+      //  //  AutoRegisterTemplate        = true,
+      //  //  AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6
+      //  //}) // Install-Package Serilog.Sinks.ElasticSearch
       //  .CreateLogger();
     }
   }
