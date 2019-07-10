@@ -14,16 +14,20 @@ namespace Playing_with_Serilog
 
     public static void Main(string[] args)
     {
+      IWebHostBuilder webHostBuilder;
+
       using (CancellationTokenSource cancellationTokenSource = new CancellationTokenSource())
       {
         IConfiguration config = new ConfigurationBuilder()
-        .AddJsonFile("hosting.json", optional: true)
-        //.AddEnvironmentVariables() if you need
-        .AddCommandLine(args)
-        .Build();
+          .AddJsonFile("hosting.json", optional: true)
+          //.AddEnvironmentVariables() if you need
+          .AddCommandLine(args)
+          .Build();
 
-        createWebHostBuilder(config, cancellationTokenSource.Token).Build().Run();
+        webHostBuilder = createWebHostBuilder(config, cancellationTokenSource.Token);
       }
+
+      webHostBuilder.Build().Run();
     }
 
     private static IWebHostBuilder createWebHostBuilder(IConfiguration config, CancellationToken cancellationToken)
@@ -31,6 +35,9 @@ namespace Playing_with_Serilog
       return new WebHostBuilder()
         .UseConfiguration(config)
         .UseKestrel()
+        .UseStartup<Startup>()
+        //.UseSerilog(configureSerilog1)
+        .UseSerilog()
         .ConfigureAppConfiguration((hostContext, configBuilder) =>
         {
           string environmentName = hostContext.HostingEnvironment.EnvironmentName;
@@ -54,16 +61,13 @@ namespace Playing_with_Serilog
             configBuilder.AddJsonFile("appsettings.json", true);
             configBuilder.AddJsonFile($"appsettings.{environmentName}.json", true);
           }
-        })
-        .UseStartup<Startup>()
-        //.UseSerilog(configureLogger);
-        .UseSerilog();
+        });
     }
 
-    private static void configureLogger(WebHostBuilderContext context, LoggerConfiguration configuration)
+    private static void configureSerilog1(WebHostBuilderContext context, LoggerConfiguration configuration)
       => configuration.ReadFrom.Configuration(context.Configuration);
 
-    private static void configureLogger2(WebHostBuilderContext context, LoggerConfiguration configuration)
+    private static void configureSerilog2(WebHostBuilderContext context, LoggerConfiguration configuration)
     {
       configuration
         .MinimumLevel.Debug()
