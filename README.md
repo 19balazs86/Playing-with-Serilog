@@ -4,6 +4,8 @@ This small application is an example to use [Serilog](https://github.com/serilog
 
 Using Serilog you can avoid to dealing with the [Unit Testing with .NET Core ILogger](https://codeburst.io/unit-testing-with-net-core-ilogger-t-e8c16c503a80).
 
+[Separate branch](https://github.com/19balazs86/Playing-with-Serilog/tree/netcoreapp2.2) with the .NET Core 2.2 version.
+
 #### In this project you can find
 
 - Create logger on the fly and create from file configuration.

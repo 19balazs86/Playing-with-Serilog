@@ -2,6 +2,7 @@
 using System.Threading;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Winton.Extensions.Configuration.Consul;
@@ -14,7 +15,7 @@ namespace Playing_with_Serilog
 
     public static void Main(string[] args)
     {
-      IWebHostBuilder webHostBuilder;
+      IHostBuilder hostBuilder;
 
       using (CancellationTokenSource cancellationTokenSource = new CancellationTokenSource())
       {
@@ -24,43 +25,40 @@ namespace Playing_with_Serilog
           .AddCommandLine(args)
           .Build();
 
-        webHostBuilder = createWebHostBuilder(config, cancellationTokenSource.Token);
+        hostBuilder = createHostBuilder(config, cancellationTokenSource.Token);
       }
 
-      webHostBuilder.Build().Run();
+      hostBuilder.Build().Run();
     }
 
-    private static IWebHostBuilder createWebHostBuilder(IConfiguration config, CancellationToken cancellationToken)
+    private static IHostBuilder createHostBuilder(IConfiguration config, CancellationToken cancellationToken)
     {
-      return new WebHostBuilder()
-        .UseConfiguration(config)
-        .UseKestrel()
-        .UseStartup<Startup>()
-        //.UseSerilog(configureSerilog1)
-        .UseSerilog()
-        .ConfigureAppConfiguration((hostContext, configBuilder) =>
+      return Host
+        .CreateDefaultBuilder()
+        .ConfigureWebHostDefaults(webHostBuilder =>
         {
-          string environmentName = hostContext.HostingEnvironment.EnvironmentName;
+          webHostBuilder
+           .UseConfiguration(config)
+           .UseStartup<Startup>()
+           //.UseSerilog(configureSerilog1)
+           .UseSerilog()
+           .ConfigureAppConfiguration((hostContext, configBuilder) =>
+           {
+             string environmentName = hostContext.HostingEnvironment.EnvironmentName;
 
-          if (UsingConsul)
-          {
-            configBuilder
-              .AddConsul($"App1/appsettings.{environmentName}.json", cancellationToken,
-                options =>
-                {
-                  // You won't get any exceptions, if it is optional and ignore exception.
+             if (UsingConsul)
+             {
+               configBuilder.AddConsul($"App1/appsettings.{environmentName}.json", cancellationToken, options =>
+               {
+                 // You won't get any exceptions, if it is optional and ignore exception.
 
-                  options.ConsulConfigurationOptions = cco => cco.Address = new Uri("http://localhost:8500");
-                  options.Optional = false;
-                  options.ReloadOnChange = false;
-                  options.OnLoadException = exceptionContext => exceptionContext.Ignore = false;
-                });
-          }
-          else
-          {
-            configBuilder.AddJsonFile("appsettings.json", true);
-            configBuilder.AddJsonFile($"appsettings.{environmentName}.json", true);
-          }
+                 options.ConsulConfigurationOptions = cco => cco.Address = new Uri("http://localhost:8500");
+                 options.Optional = false;
+                 options.ReloadOnChange = false;
+                 options.OnLoadException = exceptionContext => exceptionContext.Ignore = false;
+               });
+             }
+           });
         });
     }
 
