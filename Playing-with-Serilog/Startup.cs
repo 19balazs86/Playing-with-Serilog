@@ -27,11 +27,13 @@ namespace Playing_with_Serilog
     {
       services.AddMvc(options =>
       {
-        options.Filters.Add(new ExecutionTimeLogActionFilter()); // Add filter
+        options.Filters.Add<ExecutionTimeLogFilter>(); // Add filter
       })
       .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
       services.AddSingleton(_loggingLevelSwitch);
+
+      services.AddTransient<ExecutionTimeLogFilter>();
     }
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime appLifetime)
