@@ -15,7 +15,7 @@ namespace Playing_with_Serilog
     private LoggingLevelSwitch _loggingLevelSwitch;
 
     public IConfiguration Configuration { get; }
-    
+
     public Startup(IConfiguration configuration)
     {
       Configuration = configuration;
@@ -44,6 +44,9 @@ namespace Playing_with_Serilog
       // Make sure to flush the log.
       appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
+      // Request logging is a new feature in the Serilog.AspNetCore 3.0.0
+      app.UseSerilogRequestLogging();
+
       app.UseMvc();
     }
 
@@ -61,7 +64,7 @@ namespace Playing_with_Serilog
         .Enrich.WithProperty("EnrichProperty", "value")
         .CreateLogger();
 
-      // --> Create: Logger 
+      // --> Create: Logger
       //Log.Logger = new LoggerConfiguration()
       //  .MinimumLevel.ControlledBy(_loggingLevelSwitch)
       //  .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)

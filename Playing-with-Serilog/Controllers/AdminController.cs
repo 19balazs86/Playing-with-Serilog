@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Playing_with_Serilog.Model;
 using Serilog;
+using Serilog.Context;
 using Serilog.Core;
 using Serilog.Events;
 
@@ -14,10 +15,12 @@ namespace Playing_with_Serilog.Controllers
   public class AdminController : ControllerBase
   {
     private readonly LoggingLevelSwitch _loggingLevelSwitch;
+    private readonly IDiagnosticContext _diagnosticContext;
 
-    public AdminController(LoggingLevelSwitch loggingLevelSwitch)
+    public AdminController(LoggingLevelSwitch loggingLevelSwitch, IDiagnosticContext diagnosticContext)
     {
       _loggingLevelSwitch = loggingLevelSwitch;
+      _diagnosticContext  = diagnosticContext;
 
       // {SourceContext} property in the outputTemplate, can be populated with the class name.
       //Log.ForContext<AdminController>().Debug("Constructor: AdminController");
@@ -26,7 +29,7 @@ namespace Playing_with_Serilog.Controllers
     [HttpGet("min-loglevel")]
     public ActionResult<GetLogLevelInfo> GetMinimumLogLevel()
     {
-      Log.Information("Get me the minimum log level");
+      Log.Information("Get the minimum log level");
 
       return new GetLogLevelInfo
       {
@@ -55,6 +58,17 @@ namespace Playing_with_Serilog.Controllers
           await Task.Delay(200); // Do something
         }
       }
+    }
+
+    [HttpGet("test-diagnostic-context/{id}")]
+    public void TestDiagnosticContext(int id)
+    {
+      // Dynamically add properties during request processing.
+      // TestId will appear in the log created by the app.UseSerilogRequestLogging().
+      _diagnosticContext.Set("TestId", id);
+
+      using (LogContext.PushProperty("TestId", id))
+        Log.Information("LogContext.PushProperty dynamically add the TestId property this log.");
     }
   }
 }

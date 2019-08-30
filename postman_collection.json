@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "37dbd95e-8d78-40e6-a7d0-91e413bac90d",
+		"name": "Serilog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "min-loglevel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:51382/Admin/min-loglevel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51382",
+					"path": [
+						"Admin",
+						"min-loglevel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post: min-loglevel",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"logLevel\": \"Verbose\" }"
+				},
+				"url": {
+					"raw": "http://localhost:51382/Admin/min-loglevel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51382",
+					"path": [
+						"Admin",
+						"min-loglevel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test-execution-time",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:51382/Admin/test-execution-time",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51382",
+					"path": [
+						"Admin",
+						"test-execution-time"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test-diagnostic-context",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:51382/Admin/test-diagnostic-context/42",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51382",
+					"path": [
+						"Admin",
+						"test-diagnostic-context",
+						"42"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
