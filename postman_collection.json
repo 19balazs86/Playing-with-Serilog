@@ -96,6 +96,26 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "test-exception-details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:51382/Admin/test-exception-details",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51382",
+					"path": [
+						"Admin",
+						"test-exception-details"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

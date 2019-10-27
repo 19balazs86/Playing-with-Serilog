@@ -13,6 +13,7 @@ Using Serilog you can avoid to dealing with the [Unit Testing with .NET Core ILo
 - Use LoggingLevelSwitch, which helps you to change the minimum log level on the fly, without restart the server or change the configuration. [Dynamically changing the Serilog level](https://nblumhardt.com/2014/10/dynamically-changing-the-serilog-level).
 - Calculate the execution time and display it in the log.
 - Using the new [Request logging](https://github.com/serilog/serilog-aspnetcore#request-logging-300-) middleware feature from the [Serilog.AspNetCore](https://github.com/serilog/serilog-aspnetcore) 3.0.0 version.
+- Using [Serilog.Exceptions](https://github.com/RehanSaeed/Serilog.Exceptions) library to log exception details and custom properties that are not output by default.
 
 #### Get Consul
 

@@ -74,6 +74,7 @@ namespace Playing_with_Serilog
       //  .MinimumLevel.Override("System", LogEventLevel.Warning)
       //  .MinimumLevel.Override("Microsoft.Hosting", LogEventLevel.Information)
       //  .Enrich.FromLogContext()
+      //  .Enrich.WithExceptionDetails()
       //  .Enrich.WithProperty("EnrichProperty", "value")
       //  .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {Message}{NewLine}{Exception}")
       //  .WriteTo.File(path: "log-.txt", rollingInterval: RollingInterval.Day, retainedFileCountLimit: 7, formatter: new Serilog.Formatting.Json.JsonFormatter())

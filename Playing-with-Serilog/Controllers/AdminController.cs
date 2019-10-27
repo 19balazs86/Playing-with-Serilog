@@ -70,5 +70,19 @@ namespace Playing_with_Serilog.Controllers
       using (LogContext.PushProperty("TestId", id))
         Log.Information("LogContext.PushProperty dynamically add the TestId property this log.");
     }
+
+    [HttpGet("test-exception-details")]
+    public void TestExceptionDetails()
+    {
+      var innerException = new Exception("Test ExceptionDetails (InnerException)");
+      innerException.Data.Add("MyKeyInner1", "MyValueInner1");
+      innerException.Data.Add("MyKeyInner2", new { Prop1 = "PropertyInner1", Prop2 = 10 });
+
+      var exception = new Exception("Test ExceptionDetails", innerException);
+      exception.Data.Add("MyKey1", "MyValue1");
+      exception.Data.Add("MyKey2", new { Prop1 = "Property1", Prop2 = 20 });
+
+      Log.Error(exception, "Just a test for ExceptionDetails.");
+    }
   }
 }
