@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -9,7 +8,7 @@ using Winton.Extensions.Configuration.Consul;
 
 namespace Playing_with_Serilog
 {
-  public class Program
+  public static class Program
   {
     public static bool UsingConsul => false;
 
@@ -17,21 +16,18 @@ namespace Playing_with_Serilog
     {
       IHostBuilder hostBuilder;
 
-      using (CancellationTokenSource cancellationTokenSource = new CancellationTokenSource())
-      {
-        IConfiguration config = new ConfigurationBuilder()
-          .AddJsonFile("hosting.json", optional: true)
-          //.AddEnvironmentVariables() if you need
-          .AddCommandLine(args)
-          .Build();
+      IConfiguration config = new ConfigurationBuilder()
+        .AddJsonFile("hosting.json", optional: true)
+        //.AddEnvironmentVariables() if you need
+        .AddCommandLine(args)
+        .Build();
 
-        hostBuilder = createHostBuilder(config, cancellationTokenSource.Token);
-      }
+      hostBuilder = createHostBuilder(config);
 
       hostBuilder.Build().Run();
     }
 
-    private static IHostBuilder createHostBuilder(IConfiguration config, CancellationToken cancellationToken)
+    private static IHostBuilder createHostBuilder(IConfiguration config)
     {
       return Host
         .CreateDefaultBuilder()
@@ -48,7 +44,7 @@ namespace Playing_with_Serilog
 
              if (UsingConsul)
              {
-               configBuilder.AddConsul($"App1/appsettings.{environmentName}.json", cancellationToken, options =>
+               configBuilder.AddConsul($"App1/appsettings.{environmentName}.json", options =>
                {
                  // You won't get any exceptions, if it is optional and ignore exception.
 
