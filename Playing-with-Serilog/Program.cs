@@ -1,8 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Serilog;
+﻿using Serilog;
 using Serilog.Events;
 using Winton.Extensions.Configuration.Consul;
 
@@ -36,8 +32,6 @@ namespace Playing_with_Serilog
           webHostBuilder
            .UseConfiguration(config)
            .UseStartup<Startup>()
-           //.UseSerilog(configureSerilog1)
-           .UseSerilog()
            .ConfigureAppConfiguration((hostContext, configBuilder) =>
            {
              string environmentName = hostContext.HostingEnvironment.EnvironmentName;
@@ -55,13 +49,15 @@ namespace Playing_with_Serilog
                });
              }
            });
-        });
+        })
+        //.UseSerilog(configureSerilog1)
+        .UseSerilog();
     }
 
-    private static void configureSerilog1(WebHostBuilderContext context, LoggerConfiguration configuration)
+    private static void configureSerilog1(HostBuilderContext context, LoggerConfiguration configuration)
       => configuration.ReadFrom.Configuration(context.Configuration);
 
-    private static void configureSerilog2(WebHostBuilderContext context, LoggerConfiguration configuration)
+    private static void configureSerilog2(HostBuilderContext context, LoggerConfiguration configuration)
     {
       configuration
         .MinimumLevel.Debug()

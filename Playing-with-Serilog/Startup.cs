@@ -1,11 +1,4 @@
-﻿using System;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using System.Text.Json.Serialization;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -29,7 +22,6 @@ namespace Playing_with_Serilog
     {
       services
         .AddControllers(options => options.Filters.Add<ExecutionTimeLogFilter>())
-        .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
         .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
       services.AddSingleton(_loggingLevelSwitch);
